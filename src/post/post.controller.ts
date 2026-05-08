@@ -10,11 +10,13 @@ import {
 import { PostService } from './post.service';
 import { createpost } from 'src/dto/post.dto';
 import { updtpost } from 'src/dto/updt.post.dto';
-
+import { AuthGuard } from '@nestjs/passport';
+import { UseGuards } from '@nestjs/common';
 @Controller('post')
 export class PostController {
   constructor(private readonly postService: PostService) {}
   @Post('createpost')
+  @UseGuards(AuthGuard('jwt'))
   Crtpost(@Body() postdto: createpost) {
     return this.postService.createpost(postdto);
   }
