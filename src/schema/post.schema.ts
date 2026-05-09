@@ -8,6 +8,8 @@ export class Post extends Document {
   title: string;
   @Prop({ required: true })
   content: string;
+  @Prop()
+  image: string;
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
   owner: User;
 }

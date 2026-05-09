@@ -8,4 +8,6 @@ export class createpost {
   @IsNotEmpty()
   @IsString()
   content!: string;
+
+  image?: string;
 }
