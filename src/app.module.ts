@@ -9,6 +9,8 @@ import { PostModule } from './post/post.module';
 //import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
 import { AppService } from './app.service';
+import { UploadModule } from './upload/upload.module';
+import { FollowersModule } from './followers/followers.module';
 
 @Module({
   imports: [
@@ -30,6 +32,10 @@ import { AppService } from './app.service';
     PostModule,
 
     AuthModule,
+
+    UploadModule,
+
+    FollowersModule,
   ],
   // 4. Register the AppController so its routes (/user, /emu) work
   controllers: [AppController],

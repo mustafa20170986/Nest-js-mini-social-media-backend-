@@ -5,12 +5,12 @@ import mongoose from 'mongoose';
 @Schema({ timestamps: true })
 export class Post extends Document {
   @Prop({ required: true })
-  title: string;
+  title!: string;
   @Prop({ required: true })
-  content: string;
+  content!: string;
   @Prop()
-  image: string;
+  image?: string;
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
-  owner: User;
+  owner!: User;
 }
 export const PostSchema = SchemaFactory.createForClass(Post);
