@@ -11,6 +11,7 @@ import { AuthModule } from './auth/auth.module';
 import { AppService } from './app.service';
 import { UploadModule } from './upload/upload.module';
 import { FollowersModule } from './followers/followers.module';
+import { FeedModule } from './feed/feed.module';
 
 @Module({
   imports: [
@@ -36,6 +37,8 @@ import { FollowersModule } from './followers/followers.module';
     UploadModule,
 
     FollowersModule,
+
+    FeedModule,
   ],
   // 4. Register the AppController so its routes (/user, /emu) work
   controllers: [AppController],
