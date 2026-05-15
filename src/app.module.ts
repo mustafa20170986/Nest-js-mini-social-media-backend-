@@ -12,6 +12,7 @@ import { AppService } from './app.service';
 import { UploadModule } from './upload/upload.module';
 import { FollowersModule } from './followers/followers.module';
 import { FeedModule } from './feed/feed.module';
+import { LikeModule } from './like/like.module';
 
 @Module({
   imports: [
@@ -39,6 +40,8 @@ import { FeedModule } from './feed/feed.module';
     FollowersModule,
 
     FeedModule,
+
+    LikeModule,
   ],
   // 4. Register the AppController so its routes (/user, /emu) work
   controllers: [AppController],
