@@ -14,6 +14,10 @@ import { FollowersModule } from './followers/followers.module';
 import { FeedModule } from './feed/feed.module';
 import { LikeModule } from './like/like.module';
 import { CommentModule } from './comment/comment.module';
+import { ShareModule } from './share/share.module';
+import { MessageController } from './message/message.controller';
+import { MessageService } from './message/message.service';
+import { MessageModule } from './message/message.module';
 
 @Module({
   imports: [
@@ -45,6 +49,10 @@ import { CommentModule } from './comment/comment.module';
     LikeModule,
 
     CommentModule,
+
+    ShareModule,
+
+    MessageModule,
   ],
   // 4. Register the AppController so its routes (/user, /emu) work
   controllers: [AppController],
