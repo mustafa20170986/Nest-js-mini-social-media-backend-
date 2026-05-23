@@ -12,4 +12,12 @@ export class ShareController {
   getshared(@Param('userId') userId: string) {
     return this.shareService.getshared(userId);
   }
+  @Get('sharecount/:postId')
+  countshare(@Param('postId') postId: string) {
+    return this.shareService.countshare(postId);
+  }
+  @Get('shareagg/:postId')
+  sharecountagg(@Param('postId') postId: string) {
+    return this.shareService.sharecountagg(postId);
+  }
 }

@@ -40,4 +40,53 @@ export class ShareService {
       .sort({ createdAt: -1 })
       .exec();
   }
+  //share count
+  async countshare(postId: string) {
+    const getshares = await this.shareModel.countDocuments({
+      ogpostId: postId,
+    });
+    return {
+      postId: postId,
+      sharecount: getshares,
+    };
+  }
+  //share count wiuth aggrigate
+  async sharecountagg(postId: string) {
+    //mongo db aggrigate are sensitive about 
+    //incomig data . they dont perform type casting 
+    //under the hood . so manually convert them in to object
+    const conv = new Types.ObjectId(postId);
+    const resut = await this.shareModel
+      .aggregate([
+        {
+          //match the post id with original postid 
+          // here the filter filters out un-necessary docs 
+          $match: { ogpostId: conv },
+        },
+        {
+          //groupby all matched postid in a single row 
+          //it completly change the document
+          $group: {
+            _id: '$ogpostId',
+            //count  the total shares
+            totalshare: { $sum: 1 },
+          },
+        },
+        {
+          //select the fileds 
+          $project: {
+            _id: 0,
+            postId: '$ogpostId',
+            totalshare: 1,
+          },
+        },
+      ])
+      .exec();
+      //fallbaacks 
+    if (!resut || resut.length === 0) {
+      return { messsage: ' no share count yet' };
+    }
+    //return the arr 
+    return resut[0];
+  }
 }
