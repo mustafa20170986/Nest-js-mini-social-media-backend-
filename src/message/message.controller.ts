@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post } from '@nestjs/common';
+import { Body, Controller, Param, Post, Get } from '@nestjs/common';
 import { MessageService } from './message.service';
 
 @Controller('message')
@@ -11,5 +11,12 @@ export class MessageController {
     @Body('message') message: string,
   ) {
     return this.messageService.sendmessage(senderId, recId, message);
+  }
+  @Get('recmsg/:recId/:senderId')
+  receivemsg(
+    @Param('recId') recId: string,
+    @Param('senderId') senderId: string,
+  ) {
+    return this.messageService.receivemsg(recId, senderId);
   }
 }

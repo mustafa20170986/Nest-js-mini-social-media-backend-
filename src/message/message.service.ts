@@ -12,13 +12,6 @@ export class MessageService {
   ) {}
   //send message
   async sendmessage(senderId: string, recId: string, message: string) {
-    // 1. ADD THIS DEBUG LINE RIGHT HERE
-    console.log(
-      '🔍 DEBUG DATA -> Sender ID:',
-      senderId,
-      ' | Receiver ID:',
-      recId,
-    );
     if (!Types.ObjectId.isValid(recId) || !Types.ObjectId.isValid(senderId)) {
       throw new BadRequestException(
         'Invalid sender or receiver ID format. Must be a 24-character hex string.',
@@ -35,5 +28,20 @@ export class MessageService {
       recId: finduser._id,
       message: message,
     });
+  }
+  //receive the message
+  async receivemsg(recId: string, senderId: string) {
+    //find the user first
+    const finduser = await this.UserSchema.findById(senderId);
+    if (!finduser) {
+      throw new Error('sender not found ');
+    }
+    return await this.messageModel
+      .find({
+        recId: recId,
+      })
+      //.populate('User')
+      .select('message')
+      .sort({ createdAt: -1 });
   }
 }
