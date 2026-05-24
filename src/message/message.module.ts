@@ -5,6 +5,10 @@ import { User, UserSchema } from 'src/schema/user.schema';
 import { MessageController } from './message.controller';
 import { MessageService } from './message.service';
 import { groupmsgModel, groupmsgSchema } from 'src/schema/msggroup.schema';
+import {
+  groupsendmsgModel,
+  groupsendmsgSchema,
+} from 'src/schema/grpmsgsend.schema';
 
 @Module({
   imports: [
@@ -12,6 +16,7 @@ import { groupmsgModel, groupmsgSchema } from 'src/schema/msggroup.schema';
       { name: MsgSchema.name, schema: messageModel },
       { name: User.name, schema: UserSchema },
       { name: groupmsgSchema.name, schema: groupmsgModel },
+      { name: groupsendmsgSchema.name, schema: groupsendmsgModel },
     ]),
   ],
   providers: [MessageService],

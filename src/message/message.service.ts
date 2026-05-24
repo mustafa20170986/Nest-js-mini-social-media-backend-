@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
+import { groupsendmsgSchema } from 'src/schema/grpmsgsend.schema';
 import { MsgSchema } from 'src/schema/message.schema';
 import { groupmsgSchema } from 'src/schema/msggroup.schema';
 import { User } from 'src/schema/user.schema';
@@ -12,6 +13,8 @@ export class MessageService {
     @InjectModel(User.name) private UserSchema: Model<User>,
     @InjectModel(groupmsgSchema.name)
     private groupmsgModel: Model<groupmsgSchema>,
+    @InjectModel(groupsendmsgSchema.name)
+    private groupsendmsgModel: Model<groupsendmsgSchema>,
   ) {}
   //send message
   async sendmessage(senderId: string, recId: string, message: string) {
@@ -61,6 +64,25 @@ export class MessageService {
     return this.groupmsgModel.create({
       creatorId: creatorId,
       memberId: memberId,
+    });
+  }
+  //send message in group
+  async sendgrpmessage(senderId: string, groupId: string, msg: string) {
+    //verify user
+    const findsuer = await this.UserSchema.findById(senderId);
+    if (!findsuer) {
+      throw new Error('usr doesnt exist');
+    }
+    //verify group
+    const findgropup = await this.groupmsgModel.findById(groupId);
+    if (!findgropup) {
+      throw new Error(' group doesnt exist');
+    }
+    //cretae the emessage
+    return this.groupsendmsgModel.create({
+      groupId: groupId,
+      senderId: findsuer._id,
+      msg: msg,
     });
   }
 }

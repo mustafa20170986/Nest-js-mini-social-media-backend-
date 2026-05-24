@@ -26,4 +26,13 @@ export class MessageController {
   ) {
     return this.messageService.messangergroup(creatorId, memberId);
   }
+  @Post('sendmsgingrp/:senderId/:groupId')
+  sendgrpmessage(
+    @Param('senderId')
+    senderId: string,
+    @Param('groupId') groupId: string,
+    @Body('msg') msg: string,
+  ) {
+    return this.messageService.sendgrpmessage(senderId, groupId, msg);
+  }
 }
