@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { MsgSchema } from 'src/schema/message.schema';
+import { groupmsgSchema } from 'src/schema/msggroup.schema';
 import { User } from 'src/schema/user.schema';
 
 @Injectable()
@@ -9,6 +10,8 @@ export class MessageService {
   constructor(
     @InjectModel(MsgSchema.name) private messageModel: Model<MsgSchema>,
     @InjectModel(User.name) private UserSchema: Model<User>,
+    @InjectModel(groupmsgSchema.name)
+    private groupmsgModel: Model<groupmsgSchema>,
   ) {}
   //send message
   async sendmessage(senderId: string, recId: string, message: string) {
@@ -43,5 +46,21 @@ export class MessageService {
       //.populate('User')
       .select('message')
       .sort({ createdAt: -1 });
+  }
+  //create messanger group
+  async messangergroup(creatorId: string, memberId: string[]) {
+    //verify creatorid
+    const getusers = [creatorId, ...memberId];
+    const findusers = await this.UserSchema.find({
+      _id: { $in: getusers },
+    });
+    if (getusers.length !== findusers.length) {
+      throw new Error(' some users not found');
+    }
+    //if okay then create the group
+    return this.groupmsgModel.create({
+      creatorId: creatorId,
+      memberId: memberId,
+    });
   }
 }

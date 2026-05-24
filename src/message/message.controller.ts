@@ -19,4 +19,11 @@ export class MessageController {
   ) {
     return this.messageService.receivemsg(recId, senderId);
   }
+  @Post('crtgrp/:creatorId')
+  messangergroup(
+    @Param('creatorId') creatorId: string,
+    @Body('memberId') memberId: string[],
+  ) {
+    return this.messageService.messangergroup(creatorId, memberId);
+  }
 }
