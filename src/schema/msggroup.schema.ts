@@ -11,7 +11,5 @@ export class groupmsgSchema extends Document {
   memberId!: (Types.ObjectId | string)[];
   @Prop()
   groupname?: string;
-  @Prop()
-  grpmsg?: string;
 }
 export const groupmsgModel = SchemaFactory.createForClass(groupmsgSchema);
