@@ -85,4 +85,30 @@ export class MessageService {
       msg: msg,
     });
   }
+  //receive msg in group
+  async recgrpmsg(recId: string, groupId: string) {
+    //find the group
+    const findgrp = await this.groupmsgModel.findOne({ _id: groupId });
+    console.log(findgrp);
+    if (!findgrp) {
+      throw new Error(' group not found ');
+    }
+
+    const finduser = await this.groupmsgModel.findOne({
+      _id: groupId,
+      $or: [{ memberId: recId }, { creatorId: recId }],
+    });
+    if (!finduser) {
+      throw new Error('usr doesnt exist');
+    }
+
+    return (
+      this.groupsendmsgModel
+        .find({ groupId: groupId })
+        .select('msg')
+        //populate showing the senderId with username
+        .populate('senderId', 'name')
+        .exec()
+    );
+  }
 }

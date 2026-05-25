@@ -35,4 +35,8 @@ export class MessageController {
   ) {
     return this.messageService.sendgrpmessage(senderId, groupId, msg);
   }
+  @Get('grpmsg/:recId/:groupId')
+  recgrpmsg(@Param('recId') recId: string, @Param('groupId') groupId: string) {
+    return this.messageService.recgrpmsg(recId, groupId);
+  }
 }
