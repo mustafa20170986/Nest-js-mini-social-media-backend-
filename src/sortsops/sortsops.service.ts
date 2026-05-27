@@ -84,4 +84,36 @@ export class SortsopsService {
       });
     }
   }
+  //get top view sorts
+  async topviewsorts() {
+    return this.sortsModel
+      .find()
+      .sort({ createdAt: -1 })
+      .select('title content')
+      .exec();
+  }
+  //get top view with viewcount
+  async totalviewcount() {
+    return this.sortsModel.aggregate([
+      {
+        $sort: { createdAt: -1 },
+      },
+      {
+        $lookup: {
+          from: this.sortopsModel.collection.name,
+          localField: '_id',
+          foreignField: 'sortId',
+          as: 'viewlog',
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          title: 1,
+          content: 1,
+          totalViews: { $size: '$viewlog' },
+        },
+      },
+    ]);
+  }
 }

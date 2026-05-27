@@ -26,4 +26,8 @@ export class SortsopsController {
   ) {
     return this.sortopsService.react(reatcorId, sortId, reacttype);
   }
+  @Get('mostviewsort')
+  topviewsorts() {
+    return this.sortopsService.totalviewcount();
+  }
 }
