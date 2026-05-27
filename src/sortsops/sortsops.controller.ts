@@ -10,4 +10,12 @@ export class SortsopsController {
   viewsort(@Param('userId') userId: string, @Param('sortId') sortId: string) {
     return this.sortopsService.viewsort(userId, sortId);
   }
+
+  @Get('totview/:sortId/:creatorId')
+  gettotview(
+    @Param('sortId') sortId: string,
+    @Param('creatorId') creatorId: string,
+  ) {
+    return this.sortopsService.gettotview(sortId, creatorId);
+  }
 }
