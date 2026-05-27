@@ -48,4 +48,40 @@ export class SortsopsService {
     }
     return { sortId: sortId, totalViewCount: viewcount[0].totalViews };
   }
+  //give reatc (like)
+  async react(
+    reactorId: string,
+    sortId: string,
+    reactTyps: 'like' | 'love' | 'angry' | 'care' | 'cry',
+  ) {
+    //if already like now performing love swap the logic
+
+    //find if the record exist
+    const currentreact = await this.sortopsModel.findOne({
+      reactorId: reactorId,
+      sortId: sortId,
+    });
+    // change react
+    if (currentreact?.reacttype !== reactTyps) {
+      await this.sortopsModel.findByIdAndUpdate(
+        currentreact?._id,
+        {
+          reacttype: reactTyps,
+        },
+        { new: true },
+      );
+    }
+    //like delet on toggle
+    if (currentreact?.reacttype === reactTyps) {
+      await this.sortopsModel.findByIdAndDelete(currentreact._id);
+    }
+    //if react not exist create new one
+    if (!currentreact) {
+      await this.sortopsModel.create({
+        reactorId: reactorId,
+        sortId: sortId,
+        reacttype: reactTyps,
+      });
+    }
+  }
 }
