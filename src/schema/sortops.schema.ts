@@ -1,11 +1,10 @@
-import { Prop, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 // react, //reactiot id ,reatctype,sortid,viewcount
 import mongoose, { Document } from 'mongoose';
 import { Types } from 'mongoose';
 
+@Schema({ timestamps: true })
 export class sortopsSchema extends Document {
-  @Prop({ required: true })
-  view!: number;
   @Prop()
   reacttype!: string;
   @Prop({ type: mongoose.Schema.ObjectId, ref: 'User', required: true })
