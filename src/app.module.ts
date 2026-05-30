@@ -18,6 +18,11 @@ import { ShareModule } from './share/share.module';
 import { MessageController } from './message/message.controller';
 import { MessageService } from './message/message.service';
 import { MessageModule } from './message/message.module';
+import { ShortsModule } from './shorts/shorts.module';
+import { SortsopsController } from './sortsops/sortsops.controller';
+import { SortsopsModule } from './sortsops/sortsops.module';
+import { RevenueController } from './revenue/revenue.controller';
+import { RevenueModule } from './revenue/revenue.module';
 
 @Module({
   imports: [
@@ -53,9 +58,15 @@ import { MessageModule } from './message/message.module';
     ShareModule,
 
     MessageModule,
+
+    ShortsModule,
+
+    SortsopsModule,
+
+    RevenueModule,
   ],
   // 4. Register the AppController so its routes (/user, /emu) work
-  controllers: [AppController],
+  controllers: [AppController, RevenueController],
 
   // 5. Provide services needed by AppController
   providers: [Redisservice, AppService],

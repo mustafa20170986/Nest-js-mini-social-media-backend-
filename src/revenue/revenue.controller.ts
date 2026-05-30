@@ -12,4 +12,8 @@ export class RevenueController {
   generaterevenue(@Param('sortId') sortId: string) {
     return this.revenueService.genratervenue(sortId);
   }
+  @Get('leaderbord')
+  leadderbrd() {
+    return this.revenueService.leaderbord();
+  }
 }

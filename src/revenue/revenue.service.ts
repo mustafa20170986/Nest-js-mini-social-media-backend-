@@ -69,4 +69,33 @@ export class RevenueService {
     console.log(parsed);
     return this.revenueModel.findOne({ userId: parsed }).select('totalrevenue');
   }
+  //top revenue generator
+  async leaderbord() {
+    return this.revenueModel.aggregate([
+      {
+        $sort: { totalrevenue: -1 },
+      },
+
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'userId',
+          foreignField: '_id',
+          as: 'userlist',
+        },
+      },
+      {
+        $unwind: {
+          path: '$userlist',
+        },
+      },
+      {
+        $project: {
+          userName: '$userlist.name',
+
+          totalrevenue: 1,
+        },
+      },
+    ]);
+  }
 }
