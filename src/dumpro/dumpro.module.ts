@@ -1,24 +1,35 @@
 import { Module } from '@nestjs/common';
 import { DumproService } from './dumpro.service';
+import { DumproController } from './dumpro.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { ConfigModule, ConfigService } from '@nestjs/config'; // Import these
 
 @Module({
   imports: [
-    //register the module
-    ClientsModule.register([
+    // Change register to registerAsync
+    ClientsModule.registerAsync([
       {
-        name: 'Notification-service',
-        transport: Transport.RMQ,
-        options: {
-          urls: [process.env.CLOUDAMQP_URL || 'amqp://localhost:5672'],
-          queue: 'notification queue',
-          queueOptions: {
-            durable: true,
+        name: 'NOTIFICATION_SERVICE',
+        imports: [ConfigModule], // Injects ConfigModule safely
+        useFactory: (configService: ConfigService) => ({
+          transport: Transport.RMQ,
+          options: {
+            // Safely extracts the URL from your environment variables asynchronously
+            urls: [
+              configService.get<string>('CLOUDAMQP_URL') ||
+                'amqp://localhost:5672',
+            ],
+            queue: 'notification_queue',
+            queueOptions: {
+              durable: true,
+            },
           },
-        },
+        }),
+        inject: [ConfigService],
       },
     ]),
   ],
+  controllers: [DumproController],
   providers: [DumproService],
 })
 export class DumproModule {}

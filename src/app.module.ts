@@ -23,6 +23,8 @@ import { SortsopsController } from './sortsops/sortsops.controller';
 import { SortsopsModule } from './sortsops/sortsops.module';
 import { RevenueController } from './revenue/revenue.controller';
 import { RevenueModule } from './revenue/revenue.module';
+import { DumproController } from './dumpro/dumpro.controller';
+import { DumproModule } from './dumpro/dumpro.module';
 
 @Module({
   imports: [
@@ -64,6 +66,8 @@ import { RevenueModule } from './revenue/revenue.module';
     SortsopsModule,
 
     RevenueModule,
+
+    DumproModule,
   ],
   // 4. Register the AppController so its routes (/user, /emu) work
   controllers: [AppController, RevenueController],
