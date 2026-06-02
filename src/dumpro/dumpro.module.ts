@@ -6,10 +6,15 @@ import { ConfigModule, ConfigService } from '@nestjs/config'; // Import these
 
 @Module({
   imports: [
-    // Change register to registerAsync
+    //instead of using standerd register
+    //we are using registerAsync so that
+    //rabbit mq client do not connetc immediately
+    //it waits untill other configuration established
     ClientsModule.registerAsync([
       {
         name: 'NOTIFICATION_SERVICE',
+        //name creates a uniqe token injection
+        //which will help to determine which instance to use
         imports: [ConfigModule], // Injects ConfigModule safely
         useFactory: (configService: ConfigService) => ({
           transport: Transport.RMQ,
